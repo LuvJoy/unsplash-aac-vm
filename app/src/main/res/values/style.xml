@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BottomNavFontStyle">
+        <item name="fontFamily">@font/sandol_regular</item>
+        <item name="android:textColor">@color/mainColor</item>
+    </style>
+
+
+</resources>
