@@ -2,4 +2,7 @@
     <string name="app_name">Unsplash-MVVM</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="today_s_topic">Today\'s Topic</string>
+    <string name="dummy_name">Alex Iby</string>
+    <string name="dummy_twit_name">\@alexiby</string>
 </resources>
