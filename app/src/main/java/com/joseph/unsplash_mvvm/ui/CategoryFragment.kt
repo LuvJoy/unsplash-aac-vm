@@ -8,8 +8,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.joseph.unsplash_mvvm.R
 import com.joseph.unsplash_mvvm.databinding.FragmentCategoryBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class CategoryFragment : Fragment(R.layout.fragment_category) {
 
     private var _binding: FragmentCategoryBinding? = null

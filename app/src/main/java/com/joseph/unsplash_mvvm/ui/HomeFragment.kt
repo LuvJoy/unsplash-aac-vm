@@ -9,8 +9,9 @@ import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.joseph.unsplash_mvvm.R
 import com.joseph.unsplash_mvvm.databinding.FragmentHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private var _binding: FragmentHomeBinding? = null

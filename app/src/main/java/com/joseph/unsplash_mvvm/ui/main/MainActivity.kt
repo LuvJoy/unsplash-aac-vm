@@ -10,7 +10,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.joseph.unsplash_mvvm.R
 import com.joseph.unsplash_mvvm.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     val TAG = "[ 로그 ]"
@@ -23,7 +25,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         initActivity()
     }
 
-    fun initActivity() {
+    private fun initActivity() {
         binding.bottomNavBar.apply {
             setupWithNavController(findNavController(R.id.nav_host_fragment_container))
             setOnNavigationItemSelectedListener(this@MainActivity)
