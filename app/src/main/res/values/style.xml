@@ -6,5 +6,9 @@
         <item name="android:textColor">@color/mainColor</item>
     </style>
 
+    <style name="Rounded">
+        <item name="cornerSize">4%</item>
+    </style>
+
 
 </resources>

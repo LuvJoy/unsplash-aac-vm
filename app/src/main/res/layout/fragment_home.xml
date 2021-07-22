@@ -16,44 +16,45 @@
             tools:context=".ui.HomeFragment">
 
             <TextView
-                android:id="@+id/dummy_textview"
+                android:id="@+id/dummy_textview2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14sp"
+                android:fontFamily="@font/sandol_extrabold"
+                android:paddingStart="4dp"
+                android:text="Today's Topics"
+                android:textColor="@color/textBlack"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/welcome_textview" />
+
+            <TextView
+                android:id="@+id/welcome_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/sandol_regular"
-                android:letterSpacing="0.03"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
-                android:text="Discover"
+                android:paddingStart="4dp"
+                android:text="Welcome Joseph"
                 android:textColor="@color/textBlack"
-                android:textSize="36sp"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/dummy_textview2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/sandol_extrabold"
-                android:letterSpacing="0.01"
-                android:paddingTop="12dp"
-                android:paddingBottom="20dp"
-                android:text="Whats New Today?"
-                android:textColor="@color/textBlack"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dummy_textview" />
-
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/maintopic_imgview"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="16dp"
                 android:scaleType="centerCrop"
+                android:src="@drawable/dummy_topic_image"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dummy_textview2" />
+                app:layout_constraintTop_toBottomOf="@+id/dummy_textview2"
+                app:shapeAppearanceOverlay="@style/Rounded"
+                tools:src="@drawable/dummy_topic_image" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -114,15 +115,14 @@
                 android:layout_marginTop="36dp"
                 android:fontFamily="@font/sandol_extrabold"
                 android:letterSpacing="0.01"
-                android:paddingTop="12dp"
-                android:paddingBottom="20dp"
-                android:text="Browse All"
+                android:text="@string/nature"
                 android:textColor="@color/textBlack"
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout"
                 tools:layout_editor_absoluteX="16dp" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/nature_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="12dp"
