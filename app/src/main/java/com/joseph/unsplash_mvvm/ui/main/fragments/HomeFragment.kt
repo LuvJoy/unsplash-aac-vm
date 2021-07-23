@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.joseph.unsplash_mvvm.R
 import com.joseph.unsplash_mvvm.databinding.FragmentHomeBinding
+import com.joseph.unsplash_mvvm.models.photo.Photo
 import com.joseph.unsplash_mvvm.ui.main.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -33,14 +34,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        collectRandomPhoto()
+    }
+
+    private fun collectRandomPhoto() {
         lifecycleScope.launchWhenStarted {
             viewModel.randomPhoto.collect { photo ->
-                val photoUrl = photo?.urls?.full
-                Glide.with(requireContext())
-                    .load(photoUrl)
-                    .into(binding.maintopicImgview)
+                photo?.let { setRandomImage(it) }
             }
         }
     }
 
+    private fun setRandomImage(photo: Photo) {
+        val photoUrl = photo.urls?.full
+        Glide.with(requireContext())
+            .load(photoUrl)
+            .into(binding.maintopicImgview)
+    }
 }
