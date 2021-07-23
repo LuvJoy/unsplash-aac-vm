@@ -2,6 +2,7 @@ package com.joseph.unsplash_mvvm.di
 
 import com.joseph.unsplash_mvvm.repo.PhotoRepository
 import com.joseph.unsplash_mvvm.data.remote.api.PhotoApi
+import com.joseph.unsplash_mvvm.data.remote.api.UserApi
 import com.joseph.unsplash_mvvm.util.Constants.API_KEY
 import com.joseph.unsplash_mvvm.util.Constants.BASE_URL
 import com.joseph.unsplash_mvvm.util.DispatcherProvider
@@ -53,8 +54,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun providePhotoRepository(photoApi: PhotoApi): PhotoRepository {
-        return PhotoRepository(photoApi)
+    fun provideUserApi(retrofit: Retrofit): UserApi {
+        return retrofit.create(UserApi::class.java)
     }
 
     @Provides

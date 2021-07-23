@@ -67,7 +67,7 @@
                 tools:layout_editor_absoluteX="16dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/maintopic_profile_imgview"
+                    android:id="@+id/random_user_profile_imageview"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/shape_circle_imageview"
@@ -84,7 +84,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/maintopic_name_textview"
+                        android:id="@+id/random_name_textview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/sandol_extrabold"
@@ -94,7 +94,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/maintopic_twit_name_textview"
+                        android:id="@+id/random_username_textview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/sandol_regular"
