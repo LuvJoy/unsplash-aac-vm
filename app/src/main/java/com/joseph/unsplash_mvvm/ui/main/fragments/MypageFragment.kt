@@ -1,4 +1,4 @@
-package com.joseph.unsplash_mvvm.ui
+package com.joseph.unsplash_mvvm.ui.main.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

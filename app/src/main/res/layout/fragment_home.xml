@@ -13,7 +13,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="16dp"
-            tools:context=".ui.HomeFragment">
+            tools:context=".ui.main.fragments.HomeFragment">
 
             <TextView
                 android:id="@+id/dummy_textview2"

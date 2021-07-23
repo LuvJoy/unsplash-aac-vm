@@ -1,4 +1,4 @@
-package com.joseph.unsplash_mvvm.ui
+package com.joseph.unsplash_mvvm.ui.main.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.joseph.unsplash_mvvm.R
-import com.joseph.unsplash_mvvm.databinding.FragmentCategoryBinding
+import com.joseph.unsplash_mvvm.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CategoryFragment : Fragment(R.layout.fragment_category) {
+class SearchFragment : Fragment(R.layout.fragment_search) {
 
-    private var _binding: FragmentCategoryBinding? = null
+    private var _binding: FragmentSearchBinding? = null
     val binding get() = _binding!!
 
     override fun onCreateView(
@@ -21,9 +21,8 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = DataBindingUtil.inflate(inflater,R.layout.fragment_category,container,false)
+        _binding = DataBindingUtil.inflate(inflater,R.layout.fragment_search,container,false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
