@@ -48,7 +48,6 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="16dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/dummy_topic_image"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -66,14 +65,15 @@
                 app:layout_constraintTop_toBottomOf="@+id/maintopic_imgview"
                 tools:layout_editor_absoluteX="16dp">
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/random_user_profile_imageview"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/shape_circle_imageview"
-                    android:src="@drawable/dummy_profile_image"
                     app:layout_constraintStart_toStartOf="@+id/maintopic_imgview"
-                    app:layout_constraintTop_toBottomOf="@+id/maintopic_imgview" />
+                    app:layout_constraintTop_toBottomOf="@+id/maintopic_imgview"
+                    app:shapeAppearanceOverlay="@style/Circle"
+                    tools:src="@drawable/dummy_profile_image" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -89,9 +89,9 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/sandol_extrabold"
                         android:maxLines="1"
-                        android:text="@string/dummy_name"
                         android:textColor="@color/textBlack"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:text="@string/dummy_name" />
 
                     <TextView
                         android:id="@+id/random_username_textview"
@@ -99,9 +99,9 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/sandol_regular"
                         android:maxLines="1"
-                        android:text="@string/dummy_twit_name"
                         android:textColor="@color/textBlack"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        tools:text="@string/dummy_twit_name" />
 
                 </LinearLayout>
 

@@ -11,6 +11,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.joseph.unsplash_mvvm.R
 import com.joseph.unsplash_mvvm.databinding.FragmentHomeBinding
 import com.joseph.unsplash_mvvm.models.Photo
@@ -73,10 +76,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val userName = user.username
 
         with(binding) {
-            randomUsernameTextview.text = userName
+            randomUsernameTextview.text = "@$userName"
             randomNameTextview.text = name
             Glide.with(requireContext())
                 .load(profileImage)
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(randomUserProfileImageview)
         }
     }
@@ -85,6 +89,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val photoUrl = photo.urls?.full
         Glide.with(requireContext())
             .load(photoUrl)
+            .thumbnail(0.05f)
+            .transition(DrawableTransitionOptions.withCrossFade())
             .into(binding.maintopicImgview)
     }
 }
