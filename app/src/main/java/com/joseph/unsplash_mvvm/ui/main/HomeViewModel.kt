@@ -10,6 +10,7 @@ import com.joseph.unsplash_mvvm.repo.UserRepository
 import com.joseph.unsplash_mvvm.util.DispatcherProvider
 import com.joseph.unsplash_mvvm.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -25,13 +26,17 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     sealed class Event {
-        data class ErrorEvent(val message: String) : Event()
+        data class LoadRandomPhotoEvent(val data: Photo) : Event()
+        data class LoadRandomPhotoErrorEvent(val message: String) : Event()
+
+        data class LoadUserProfileEvent(val userProfile: User) : Event()
+        data class LoadUserProfileErrorEvent(val message: String) : Event()
     }
 
-    private val _randomPhoto: MutableStateFlow<Photo?> = MutableStateFlow(null)
+    private val _randomPhoto: MutableStateFlow<Event?> = MutableStateFlow(null)
     val randomPhoto get() = _randomPhoto
 
-    private val _userProfile: MutableStateFlow<User?> = MutableStateFlow(null)
+    private val _userProfile: MutableStateFlow<Event?> = MutableStateFlow(null)
     val userProfile get() = _userProfile
 
     private val _errorEvent: MutableSharedFlow<Event> = MutableSharedFlow()
@@ -43,32 +48,44 @@ class HomeViewModel @Inject constructor(
 
     private fun getRandomPhoto() {
         viewModelScope.launch(dispatchers.main) {
-            getPhoto()
-            getUserProfile(_randomPhoto.value?.user?.username!!)
+            Log.d("[TAG]", "main -> " + currentCoroutineContext().toString())
+            _randomPhoto.value = getPhoto()
+
+            val event = _randomPhoto.value
+            _userProfile.value = when (event) {
+                is Event.LoadRandomPhotoEvent -> {
+                    getUserProfile(event.data.user?.username!!)
+                }
+                is Event.LoadRandomPhotoErrorEvent -> {
+                    Event.LoadRandomPhotoErrorEvent(event.message)
+                }
+                else -> return@launch
+            }
         }
     }
 
     private suspend fun getPhoto() = withContext(dispatchers.io) {
-        val photo = photoRepository.getRandomPhoto()
-        when (photo) {
+        Log.d("[TAG]", "photo() io -> " + currentCoroutineContext().toString())
+        val response = photoRepository.getRandomPhoto()
+        when (response) {
             is Resource.Error -> {
-                _errorEvent.emit(Event.ErrorEvent(photo.message!!))
+                Event.LoadRandomPhotoErrorEvent(response.message!!)
             }
             is Resource.Success -> {
-                _randomPhoto.value = photo.data
+                Event.LoadRandomPhotoEvent(response.data!!)
             }
         }
     }
 
     private suspend fun getUserProfile(username: String) = withContext(dispatchers.io) {
-        val user = userRepository.getUserProfile(username)
-        when (user) {
+        Log.d("[TAG]", "user() io -> " + currentCoroutineContext().toString())
+        val response = userRepository.getUserProfile(username)
+        when (response) {
             is Resource.Error -> {
-                _errorEvent.emit(Event.ErrorEvent(user.message!!))
-                Timber.d(user.message)
+                Event.LoadUserProfileErrorEvent(response.message!!)
             }
             is Resource.Success -> {
-                _userProfile.value = user.data
+                Event.LoadUserProfileEvent(response.data!!)
             }
         }
     }

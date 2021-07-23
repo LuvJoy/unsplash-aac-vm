@@ -43,29 +43,38 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         collectRandomPhoto()
         collectRandomPhotoUser()
-        collectErrorEvent()
-    }
-
-    private fun collectErrorEvent() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.errorEvent.collect { event ->
-                if(event is Event.ErrorEvent) Toast.makeText(requireContext(), event.message, Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 
     private fun collectRandomPhoto() {
         lifecycleScope.launchWhenStarted {
-            viewModel.randomPhoto.collect { photo ->
-                photo?.let { setRandomImage(it) }
+            viewModel.randomPhoto.collect { event ->
+                event?.let {
+                    when (it) {
+                        is Event.LoadRandomPhotoEvent -> {
+                            setRandomImage(it.data)
+                        }
+                        is Event.LoadRandomPhotoErrorEvent -> {
+                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
             }
         }
     }
 
     private fun collectRandomPhotoUser() {
         lifecycleScope.launchWhenStarted {
-            viewModel.userProfile.collect { user ->
-                user?.let { setRandomPhotoUserProfile(it) }
+            viewModel.userProfile.collect { event ->
+                event?.let {
+                    when (it) {
+                        is Event.LoadUserProfileEvent -> {
+                            setRandomPhotoUserProfile(it.userProfile)
+                        }
+                        is Event.LoadUserProfileErrorEvent -> {
+                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
             }
         }
     }
