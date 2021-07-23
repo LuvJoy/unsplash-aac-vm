@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.joseph.unsplash_mvvm.R
 import com.joseph.unsplash_mvvm.databinding.FragmentHomeBinding
-import com.joseph.unsplash_mvvm.models.photo.Photo
+import com.joseph.unsplash_mvvm.models.Photo
 import com.joseph.unsplash_mvvm.ui.main.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect

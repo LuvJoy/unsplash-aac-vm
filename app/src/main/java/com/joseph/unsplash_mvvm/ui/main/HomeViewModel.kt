@@ -2,7 +2,7 @@ package com.joseph.unsplash_mvvm.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joseph.unsplash_mvvm.models.photo.Photo
+import com.joseph.unsplash_mvvm.models.Photo
 import com.joseph.unsplash_mvvm.repo.PhotoRepository
 import com.joseph.unsplash_mvvm.util.DispatcherProvider
 import com.joseph.unsplash_mvvm.util.Resource

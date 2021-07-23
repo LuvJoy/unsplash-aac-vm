@@ -1,7 +1,7 @@
 package com.joseph.unsplash_mvvm.repo
 
 import com.joseph.unsplash_mvvm.data.remote.api.PhotoApi
-import com.joseph.unsplash_mvvm.models.photo.Photo
+import com.joseph.unsplash_mvvm.models.Photo
 import com.joseph.unsplash_mvvm.util.Resource
 import retrofit2.HttpException
 import javax.inject.Inject
