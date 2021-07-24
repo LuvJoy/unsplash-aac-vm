@@ -11,11 +11,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.joseph.unsplash_mvvm.R
+import com.joseph.unsplash_mvvm.adapters.PhotoAdapter
 import com.joseph.unsplash_mvvm.databinding.FragmentHomeBinding
 import com.joseph.unsplash_mvvm.models.Photo
 import com.joseph.unsplash_mvvm.models.User
@@ -23,10 +25,14 @@ import com.joseph.unsplash_mvvm.ui.main.HomeViewModel
 import com.joseph.unsplash_mvvm.ui.main.HomeViewModel.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
+    @Inject
+    lateinit var natureAdapter: PhotoAdapter
     private val viewModel: HomeViewModel by activityViewModels()
     private var _binding: FragmentHomeBinding? = null
     val binding get() = _binding!!
@@ -42,8 +48,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initRecyclerView()
         collectRandomPhoto()
         collectRandomPhotoUser()
+        collectNaturePhotos()
+    }
+
+    private fun initRecyclerView() {
+        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.natureRecyclerview.adapter = natureAdapter
+        binding.natureRecyclerview.layoutManager = layoutManager
     }
 
     private fun collectRandomPhoto() {
@@ -74,6 +88,22 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         is Event.LoadUserProfileErrorEvent -> {
                             Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun collectNaturePhotos() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.naturePhotos.collect { event ->
+                event?.let {
+                    if(it is Event.SearchNaturePhotoEvent) {
+                        Timber.d(it.naturePhotos.toString())
+                        natureAdapter.submitList(it.naturePhotos)
+                    } else if(it is Event.SearchNaturePhotoErrorEvent) {
+                        Timber.d(it.message.toString())
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                     }
                 }
             }

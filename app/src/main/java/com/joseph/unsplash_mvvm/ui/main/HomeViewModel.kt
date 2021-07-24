@@ -31,6 +31,9 @@ class HomeViewModel @Inject constructor(
 
         data class LoadUserProfileEvent(val userProfile: User) : Event()
         data class LoadUserProfileErrorEvent(val message: String) : Event()
+
+        data class SearchNaturePhotoEvent(val naturePhotos: List<Photo>) : Event()
+        data class SearchNaturePhotoErrorEvent(val message: String) : Event()
     }
 
     private val _randomPhoto: MutableStateFlow<Event?> = MutableStateFlow(null)
@@ -39,11 +42,15 @@ class HomeViewModel @Inject constructor(
     private val _userProfile: MutableStateFlow<Event?> = MutableStateFlow(null)
     val userProfile get() = _userProfile
 
+    private val _naturePhotos: MutableStateFlow<Event?> = MutableStateFlow(null)
+    val naturePhotos get() = _naturePhotos
+
     private val _errorEvent: MutableSharedFlow<Event> = MutableSharedFlow()
     val errorEvent get() = _errorEvent
 
     init {
         getRandomPhoto()
+        getNaturePhotos()
     }
 
     private fun getRandomPhoto() {
@@ -86,6 +93,20 @@ class HomeViewModel @Inject constructor(
             }
             is Resource.Success -> {
                 Event.LoadUserProfileEvent(response.data!!)
+            }
+        }
+    }
+
+    private fun getNaturePhotos() = viewModelScope.launch {
+        val response = photoRepository.searchPhotos("nature")
+        when (response) {
+            is Resource.Error -> {
+                _naturePhotos.value =
+                    Event.SearchNaturePhotoErrorEvent(response.message ?: return@launch)
+            }
+            is Resource.Success -> {
+                _naturePhotos.value =
+                    Event.SearchNaturePhotoEvent(response.data?.results ?: return@launch)
             }
         }
     }
