@@ -1,7 +1,6 @@
 package com.joseph.unsplash_mvvm.ui.main.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
 import com.joseph.unsplash_mvvm.R
 import com.joseph.unsplash_mvvm.adapters.PhotoAdapter
 import com.joseph.unsplash_mvvm.databinding.FragmentHomeBinding
@@ -26,13 +22,13 @@ import com.joseph.unsplash_mvvm.ui.main.HomeViewModel.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
-    @Inject
-    lateinit var natureAdapter: PhotoAdapter
+    private val natureAdapter: PhotoAdapter by lazy { PhotoAdapter() }
+    private val animalAdapter: PhotoAdapter by lazy { PhotoAdapter() }
+
     private val viewModel: HomeViewModel by activityViewModels()
     private var _binding: FragmentHomeBinding? = null
     val binding get() = _binding!!
@@ -52,12 +48,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         collectRandomPhoto()
         collectRandomPhotoUser()
         collectNaturePhotos()
+        collectAnimalPhotos()
     }
 
     private fun initRecyclerView() {
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.natureRecyclerview.adapter = natureAdapter
         binding.natureRecyclerview.layoutManager = layoutManager
+
+        val layoutManager2 = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.animalRecyclerview.adapter = animalAdapter
+        binding.animalRecyclerview.layoutManager = layoutManager2
     }
 
     private fun collectRandomPhoto() {
@@ -98,15 +99,31 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         lifecycleScope.launchWhenStarted {
             viewModel.naturePhotos.collect { event ->
                 event?.let {
-                    if(it is Event.SearchNaturePhotoEvent) {
-                        Timber.d(it.naturePhotos.toString())
-                        natureAdapter.submitList(it.naturePhotos)
-                    } else if(it is Event.SearchNaturePhotoErrorEvent) {
+                    if(it is Event.SearchPhotoEvent) {
+                        Timber.d(it.photos.toString())
+                        natureAdapter.submitList(it.photos)
+                    } else if(it is Event.SearchPhotoErrorEvent) {
                         Timber.d(it.message.toString())
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                     }
                 }
             }
+        }
+    }
+
+    private fun collectAnimalPhotos() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.animalPhotos.collect { event ->
+                event?.let {
+                    if(it is Event.SearchPhotoEvent) {
+                        animalAdapter.submitList(it.photos)
+                    } else if(it is Event.SearchPhotoErrorEvent) {
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    }
+                }
+                Timber.d("sjsdjfd2")
+            }
+            Timber.d("sjsdjfd")
         }
     }
 

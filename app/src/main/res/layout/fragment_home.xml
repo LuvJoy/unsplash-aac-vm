@@ -137,7 +137,7 @@
                 android:layout_marginTop="32dp"
                 android:fontFamily="@font/sandol_extrabold"
                 android:letterSpacing="0.01"
-                android:text="@string/nature"
+                android:text="@string/animal"
                 android:textColor="@color/textBlack"
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@+id/nature_recyclerview"

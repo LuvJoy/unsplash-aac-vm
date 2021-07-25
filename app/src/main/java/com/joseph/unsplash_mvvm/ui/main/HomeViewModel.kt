@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,8 +31,8 @@ class HomeViewModel @Inject constructor(
         data class LoadUserProfileEvent(val userProfile: User) : Event()
         data class LoadUserProfileErrorEvent(val message: String) : Event()
 
-        data class SearchNaturePhotoEvent(val naturePhotos: List<Photo>) : Event()
-        data class SearchNaturePhotoErrorEvent(val message: String) : Event()
+        data class SearchPhotoEvent(val photos: List<Photo>) : Event()
+        data class SearchPhotoErrorEvent(val message: String) : Event()
     }
 
     private val _randomPhoto: MutableStateFlow<Event?> = MutableStateFlow(null)
@@ -45,12 +44,16 @@ class HomeViewModel @Inject constructor(
     private val _naturePhotos: MutableStateFlow<Event?> = MutableStateFlow(null)
     val naturePhotos get() = _naturePhotos
 
+    private val _animalPhotos: MutableStateFlow<Event?> = MutableStateFlow(null)
+    val animalPhotos get() = _animalPhotos
+
     private val _errorEvent: MutableSharedFlow<Event> = MutableSharedFlow()
     val errorEvent get() = _errorEvent
 
     init {
         getRandomPhoto()
         getNaturePhotos()
+        getAnimalPhotos()
     }
 
     private fun getRandomPhoto() {
@@ -102,11 +105,25 @@ class HomeViewModel @Inject constructor(
         when (response) {
             is Resource.Error -> {
                 _naturePhotos.value =
-                    Event.SearchNaturePhotoErrorEvent(response.message ?: return@launch)
+                    Event.SearchPhotoErrorEvent(response.message ?: return@launch)
             }
             is Resource.Success -> {
                 _naturePhotos.value =
-                    Event.SearchNaturePhotoEvent(response.data?.results ?: return@launch)
+                    Event.SearchPhotoEvent(response.data?.results ?: return@launch)
+            }
+        }
+    }
+
+    private fun getAnimalPhotos() = viewModelScope.launch {
+        val response = photoRepository.searchPhotos("animal")
+        when (response) {
+            is Resource.Error -> {
+                _animalPhotos.value =
+                    Event.SearchPhotoErrorEvent(response.message ?: return@launch)
+            }
+            is Resource.Success -> {
+                _animalPhotos.value =
+                    Event.SearchPhotoEvent(response.data?.results ?: return@launch)
             }
         }
     }
