@@ -56,10 +56,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.natureRecyclerview.adapter = natureAdapter
         binding.natureRecyclerview.layoutManager = layoutManager
+        natureAdapter.setItemClickListener { id ->
+            val intent = Intent(requireContext(), DetailActivity::class.java)
+            intent.putExtra("id", id)
+            startActivity(intent)
+        }
 
         val layoutManager2 = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.animalRecyclerview.adapter = animalAdapter
         binding.animalRecyclerview.layoutManager = layoutManager2
+        animalAdapter.setItemClickListener { id ->
+            val intent = Intent(requireContext(), DetailActivity::class.java)
+            intent.putExtra("id", id)
+            startActivity(intent)
+        }
     }
 
     private fun collectRandomPhoto() {
