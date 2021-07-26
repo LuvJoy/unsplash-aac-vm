@@ -1,158 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".ui.main.fragments.HomeFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/dummy_textview2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="16dp"
-            tools:context=".ui.main.fragments.HomeFragment">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14sp"
+            android:fontFamily="@font/sandol_extrabold"
+            android:paddingStart="4dp"
+            android:text="Today's Topics"
+            android:textColor="@color/textBlack"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/welcome_textview" />
 
-            <TextView
-                android:id="@+id/dummy_textview2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14sp"
-                android:fontFamily="@font/sandol_extrabold"
-                android:paddingStart="4dp"
-                android:text="Today's Topics"
-                android:textColor="@color/textBlack"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/welcome_textview" />
+        <TextView
+            android:id="@+id/welcome_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sandol_regular"
+            android:paddingStart="4dp"
+            android:text="Welcome Joseph"
+            android:textColor="@color/textBlack"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/welcome_textview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/sandol_regular"
-                android:paddingStart="4dp"
-                android:text="Welcome Joseph"
-                android:textColor="@color/textBlack"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/maintopic_imgview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dummy_textview2"
+            app:shapeAppearanceOverlay="@style/Rounded"
+            tools:src="@drawable/dummy_topic_image" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/maintopic_imgview"
+            tools:layout_editor_absoluteX="16dp">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/maintopic_imgview"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="16dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dummy_textview2"
-                app:shapeAppearanceOverlay="@style/Rounded"
-                tools:src="@drawable/dummy_topic_image" />
+                android:id="@+id/random_user_profile_imageview"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/shape_circle_imageview"
+                app:layout_constraintStart_toStartOf="@+id/maintopic_imgview"
+                app:layout_constraintTop_toBottomOf="@+id/maintopic_imgview"
+                app:shapeAppearanceOverlay="@style/Circle"
+                tools:src="@drawable/dummy_profile_image" />
 
             <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/maintopic_imgview"
-                tools:layout_editor_absoluteX="16dp">
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/random_user_profile_imageview"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/shape_circle_imageview"
-                    app:layout_constraintStart_toStartOf="@+id/maintopic_imgview"
-                    app:layout_constraintTop_toBottomOf="@+id/maintopic_imgview"
-                    app:shapeAppearanceOverlay="@style/Circle"
-                    tools:src="@drawable/dummy_profile_image" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/random_name_textview"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:fontFamily="@font/sandol_extrabold"
+                    android:maxLines="1"
+                    android:textColor="@color/textBlack"
+                    android:textSize="14sp"
+                    tools:text="@string/dummy_name" />
 
-                    <TextView
-                        android:id="@+id/random_name_textview"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/sandol_extrabold"
-                        android:maxLines="1"
-                        android:textColor="@color/textBlack"
-                        android:textSize="14sp"
-                        tools:text="@string/dummy_name" />
-
-                    <TextView
-                        android:id="@+id/random_username_textview"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/sandol_regular"
-                        android:maxLines="1"
-                        android:textColor="@color/textBlack"
-                        android:textSize="12sp"
-                        tools:text="@string/dummy_twit_name" />
-
-                </LinearLayout>
-
+                <TextView
+                    android:id="@+id/random_username_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sandol_regular"
+                    android:maxLines="1"
+                    android:textColor="@color/textBlack"
+                    android:textSize="12sp"
+                    tools:text="@string/dummy_twit_name" />
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/dummy_textview3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:fontFamily="@font/sandol_extrabold"
-                android:letterSpacing="0.01"
-                android:text="@string/nature"
-                android:textColor="@color/textBlack"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                tools:layout_editor_absoluteX="16dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/nature_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/dummy_textview3"
-                tools:layout_editor_absoluteX="16dp" />
+        </LinearLayout>
 
-            <TextView
-                android:id="@+id/dummy_textview4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:fontFamily="@font/sandol_extrabold"
-                android:letterSpacing="0.01"
-                android:text="@string/animal"
-                android:textColor="@color/textBlack"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@+id/nature_recyclerview"
-                tools:layout_editor_absoluteX="16dp" />
+        <TextView
+            android:id="@+id/dummy_textview3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/sandol_extrabold"
+            android:letterSpacing="0.01"
+            android:text="@string/nature"
+            android:textColor="@color/textBlack"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            tools:layout_editor_absoluteX="16dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/animal_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/dummy_textview4"
-                tools:layout_editor_absoluteX="16dp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/nature_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/dummy_textview3"
+            tools:layout_editor_absoluteX="16dp" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/dummy_textview4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/sandol_extrabold"
+            android:letterSpacing="0.01"
+            android:text="@string/animal"
+            android:textColor="@color/textBlack"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/nature_recyclerview"
+            tools:layout_editor_absoluteX="16dp" />
 
-    </androidx.core.widget.NestedScrollView>
-</layout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/animal_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/dummy_textview4"
+            tools:layout_editor_absoluteX="16dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
