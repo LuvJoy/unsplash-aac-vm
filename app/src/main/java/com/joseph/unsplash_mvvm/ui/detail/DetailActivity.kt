@@ -50,13 +50,18 @@ class DetailActivity : AppCompatActivity() {
 
         collectUserData()
         collectPhotoData()
+        collectionPhotoInfoVisible()
 
         binding.root.setOnClickListener {
-            if (showProfile == false) {
-                showProfile = true
+            viewModel.onTouchScreen()
+        }
+    }
+
+    private fun collectionPhotoInfoVisible() = lifecycleScope.launchWhenStarted {
+        viewModel.showPhotoInfoVisible.collect { isShown ->
+            if(isShown) {
                 showPhotoData()
             } else {
-                showProfile = false
                 hidePhotoData()
             }
         }
@@ -95,7 +100,7 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun collectPhotoData() = lifecycleScope.launchWhenCreated {
+    private fun collectPhotoData() = lifecycleScope.launchWhenStarted {
         viewModel.photo.collect { photo ->
             photo?.let {
                 settingPhotoViews(it)
@@ -131,6 +136,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        hidePhotoData()
         supportFinishAfterTransition()
     }
 }

@@ -33,6 +33,9 @@ class DetailViewModel @Inject constructor(
     private val _userProfile = MutableSharedFlow<Event>()
     val userProfile: SharedFlow<Event> get() = _userProfile
 
+    private val _showPhotoInfoVisible = MutableStateFlow(false)
+    val showPhotoInfoVisible: StateFlow<Boolean> get() = _showPhotoInfoVisible
+
     sealed class Event {
         class LoadUserProfileEvent(val data: User) : Event()
         class LoadUserProfileErrorEvent(val message: String) : Event()
@@ -50,7 +53,7 @@ class DetailViewModel @Inject constructor(
         val response = userRepository.getUserProfile(
             username ?: throw RuntimeException("UserId cannot be null")
         )
-        Timber.d("[TAG] : ${response.toString()}")
+        Timber.d("[TAG] : $response")
         when (response) {
             is Resource.Success -> {
                 _userProfile.emit(
@@ -67,5 +70,9 @@ class DetailViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun onTouchScreen() {
+        _showPhotoInfoVisible.value = _showPhotoInfoVisible.value != true
     }
 }
