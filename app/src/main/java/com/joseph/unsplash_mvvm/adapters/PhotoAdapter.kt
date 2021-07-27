@@ -30,7 +30,7 @@ class PhotoAdapter @Inject constructor() :
         val photo = currentList[position]
         holder.binding.apply {
             Glide.with(holder.binding.root)
-                .load(photo.urls?.full)
+                .load(photo.urls?.regular)
                 .apply { RequestOptions().dontTransform() }
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(photoImageview)

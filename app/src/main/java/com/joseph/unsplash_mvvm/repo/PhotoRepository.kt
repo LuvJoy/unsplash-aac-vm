@@ -3,6 +3,7 @@ package com.joseph.unsplash_mvvm.repo
 import com.joseph.unsplash_mvvm.data.remote.api.PhotoApi
 import com.joseph.unsplash_mvvm.models.Photo
 import com.joseph.unsplash_mvvm.models.PhotoSearchResult
+import com.joseph.unsplash_mvvm.util.Constants
 import com.joseph.unsplash_mvvm.util.Resource
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -24,15 +25,15 @@ class PhotoRepository @Inject constructor(
         }
     }
 
-    suspend fun searchPhotos(query: String): Resource<PhotoSearchResult> {
+    suspend fun searchPhotos(query: String, page:Int): Resource<PhotoSearchResult> {
         val response = try {
             photoApi.searchPhotos(
                 query = query,
-                page = 2,
+                page = page,
                 per_page = 10,
                 order_by = "latest",
                 color = null,
-                orientation = null
+                orientation = Constants.ORIENTATION_PORTRAIT
             )
         } catch (e: HttpException) {
             return Resource.Error("Http Connection Error")

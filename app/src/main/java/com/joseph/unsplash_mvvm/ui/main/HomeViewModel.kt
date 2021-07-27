@@ -50,16 +50,19 @@ class HomeViewModel @Inject constructor(
     private val _errorEvent: MutableSharedFlow<Event> = MutableSharedFlow()
     val errorEvent get() = _errorEvent
 
+    private var naturePage = 0
+    private var animalPage = 0
+
     init {
-        getRandomPhoto()
+        getRandomPhotoAndUserProfile()
         getNaturePhotos()
         getAnimalPhotos()
     }
 
-    private fun getRandomPhoto() {
+    private fun getRandomPhotoAndUserProfile() {
         viewModelScope.launch(dispatchers.main) {
             Log.d("[TAG]", "main -> " + currentCoroutineContext().toString())
-            _randomPhoto.value = getPhoto()
+            _randomPhoto.value = getRandomPhoto()
 
             val event = _randomPhoto.value
             _userProfile.value = when (event) {
@@ -74,7 +77,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getPhoto() = withContext(dispatchers.io) {
+    private suspend fun getRandomPhoto() = withContext(dispatchers.io) {
         Log.d("[TAG]", "photo() io -> " + currentCoroutineContext().toString())
         val response = photoRepository.getRandomPhoto()
         when (response) {
@@ -100,8 +103,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getNaturePhotos() = viewModelScope.launch {
-        val response = photoRepository.searchPhotos("nature")
+    fun getNaturePhotos() = viewModelScope.launch {
+        naturePage++
+        val response = photoRepository.searchPhotos("nature", naturePage)
         when (response) {
             is Resource.Error -> {
                 _naturePhotos.value =
@@ -114,8 +118,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getAnimalPhotos() = viewModelScope.launch {
-        val response = photoRepository.searchPhotos("animal")
+    fun getAnimalPhotos() = viewModelScope.launch {
+        animalPage++
+        val response = photoRepository.searchPhotos("animal", animalPage)
         when (response) {
             is Resource.Error -> {
                 _animalPhotos.value =

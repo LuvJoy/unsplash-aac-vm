@@ -12,6 +12,7 @@ import androidx.core.util.Pair
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.joseph.unsplash_mvvm.R
@@ -22,6 +23,7 @@ import com.joseph.unsplash_mvvm.models.User
 import com.joseph.unsplash_mvvm.ui.detail.DetailActivity
 import com.joseph.unsplash_mvvm.ui.main.HomeViewModel
 import com.joseph.unsplash_mvvm.ui.main.HomeViewModel.*
+import com.joseph.unsplash_mvvm.util.setupInfinityScrollListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
@@ -67,6 +69,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             intent.putExtra("photo", photo)
             startActivity(intent, optionsCompat.toBundle())
         }
+        binding.natureRecyclerview.setupInfinityScrollListener { viewModel.getNaturePhotos() }
 
         val layoutManager2 =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -77,6 +80,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             intent.putExtra("photo", photo)
             startActivity(intent)
         }
+        binding.animalRecyclerview.setupInfinityScrollListener { viewModel.getAnimalPhotos() }
     }
 
     private fun collectRandomPhoto() {
@@ -119,7 +123,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 event?.let {
                     if (it is Event.SearchPhotoEvent) {
                         Timber.d(it.photos.toString())
-                        natureAdapter.submitList(it.photos)
+
+                        natureAdapter.submitList(natureAdapter.currentList + it.photos)
                     } else if (it is Event.SearchPhotoErrorEvent) {
                         Timber.d(it.message.toString())
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -134,7 +139,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             viewModel.animalPhotos.collect { event ->
                 event?.let {
                     if (it is Event.SearchPhotoEvent) {
-                        animalAdapter.submitList(it.photos)
+                        animalAdapter.submitList(animalAdapter.currentList + it.photos)
                     } else if (it is Event.SearchPhotoErrorEvent) {
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                     }
