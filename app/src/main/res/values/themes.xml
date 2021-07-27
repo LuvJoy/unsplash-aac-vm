@@ -15,4 +15,11 @@
         <!-- Customize your theme here. -->
         <item name="android:windowContentTransitions">true</item>
     </style>
+
+    <style name="FullScreenActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
 </resources>
