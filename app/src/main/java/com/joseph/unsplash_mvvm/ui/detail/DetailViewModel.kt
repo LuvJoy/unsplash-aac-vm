@@ -39,25 +39,32 @@ class DetailViewModel @Inject constructor(
     }
 
     init {
-        _photo.value = savedStateHandle.get<Photo>("photo") ?: throw RuntimeException("Photo Data is Null")
+        _photo.value =
+            savedStateHandle.get<Photo>("photo") ?: throw RuntimeException("Photo Data is Null")
         getUserProfile()
     }
 
     private fun getUserProfile() = viewModelScope.launch {
         val username = _photo.value?.user?.username
         Timber.d("[TAG] : $username")
-        val response = userRepository.getUserProfile(username ?: throw RuntimeException("UserId cannot be null"))
+        val response = userRepository.getUserProfile(
+            username ?: throw RuntimeException("UserId cannot be null")
+        )
         Timber.d("[TAG] : ${response.toString()}")
         when (response) {
             is Resource.Success -> {
-                _userProfile.emit(Event.LoadUserProfileEvent(
-                    response.data ?: throw RuntimeException("Response User Data is Null")
-                ))
+                _userProfile.emit(
+                    Event.LoadUserProfileEvent(
+                        response.data ?: throw RuntimeException("Response User Data is Null")
+                    )
+                )
             }
             is Resource.Error -> {
-                _userProfile.emit(Event.LoadUserProfileErrorEvent(
-                    response.message ?: throw RuntimeException("Response Message Data is Null")
-                ))
+                _userProfile.emit(
+                    Event.LoadUserProfileErrorEvent(
+                        response.message ?: throw RuntimeException("Response Message Data is Null")
+                    )
+                )
             }
         }
     }

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.animation.Animation
 
 fun View.hide(context: Context, animation: Animation? = null) {
-    if(animation == null) {
+    if (animation == null) {
         this.visibility = View.INVISIBLE
     } else {
         this.startAnimation(animation)
@@ -13,7 +13,7 @@ fun View.hide(context: Context, animation: Animation? = null) {
 }
 
 fun View.show(context: Context, animation: Animation? = null) {
-    if(animation == null) {
+    if (animation == null) {
         this.visibility = View.VISIBLE
     } else {
         this.startAnimation(animation)

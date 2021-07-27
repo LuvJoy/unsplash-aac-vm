@@ -55,18 +55,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun initRecyclerView() {
-        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.natureRecyclerview.adapter = natureAdapter
         binding.natureRecyclerview.layoutManager = layoutManager
         natureAdapter.setItemClickListener { photo, view ->
             val intent = Intent(requireActivity(), DetailActivity::class.java)
             val pair_image = Pair.create(view, view.transitionName)
-            val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), pair_image)
+            val optionsCompat =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), pair_image)
             intent.putExtra("photo", photo)
             startActivity(intent, optionsCompat.toBundle())
         }
 
-        val layoutManager2 = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val layoutManager2 =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.animalRecyclerview.adapter = animalAdapter
         binding.animalRecyclerview.layoutManager = layoutManager2
         animalAdapter.setItemClickListener { photo, view ->
@@ -114,10 +117,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         lifecycleScope.launchWhenStarted {
             viewModel.naturePhotos.collect { event ->
                 event?.let {
-                    if(it is Event.SearchPhotoEvent) {
+                    if (it is Event.SearchPhotoEvent) {
                         Timber.d(it.photos.toString())
                         natureAdapter.submitList(it.photos)
-                    } else if(it is Event.SearchPhotoErrorEvent) {
+                    } else if (it is Event.SearchPhotoErrorEvent) {
                         Timber.d(it.message.toString())
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                     }
@@ -130,9 +133,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         lifecycleScope.launchWhenStarted {
             viewModel.animalPhotos.collect { event ->
                 event?.let {
-                    if(it is Event.SearchPhotoEvent) {
+                    if (it is Event.SearchPhotoEvent) {
                         animalAdapter.submitList(it.photos)
-                    } else if(it is Event.SearchPhotoErrorEvent) {
+                    } else if (it is Event.SearchPhotoErrorEvent) {
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                     }
                 }

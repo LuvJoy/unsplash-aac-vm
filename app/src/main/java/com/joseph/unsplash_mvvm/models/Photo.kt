@@ -37,7 +37,7 @@ data class Photo(
     val user: User?,
     @Json(name = "width")
     val width: Int?
-) : Serializable{
+) : Serializable {
     @JsonClass(generateAdapter = true)
     data class Position(
         @Json(name = "latitude")

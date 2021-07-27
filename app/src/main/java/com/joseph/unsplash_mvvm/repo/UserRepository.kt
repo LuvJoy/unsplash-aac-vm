@@ -18,7 +18,7 @@ class UserRepository @Inject constructor(
         }
 
         return if (response.isSuccessful && response.body() != null) {
-            Log.d("[TAG]","success")
+            Log.d("[TAG]", "success")
             Resource.Success(response.body()!!)
         } else {
             Resource.Error("Error")

@@ -14,8 +14,10 @@ import com.joseph.unsplash_mvvm.models.Photo
 import javax.inject.Inject
 import kotlin.RuntimeException
 
-class PhotoAdapter @Inject constructor(): ListAdapter<Photo, PhotoAdapter.PhotoViewHolder>(PhotoDiffUtil()) {
-    inner class PhotoViewHolder(val binding: ItemPhotoBinding): RecyclerView.ViewHolder(binding.root)
+class PhotoAdapter @Inject constructor() :
+    ListAdapter<Photo, PhotoAdapter.PhotoViewHolder>(PhotoDiffUtil()) {
+    inner class PhotoViewHolder(val binding: ItemPhotoBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     private lateinit var itemClickListener: (Photo, View) -> Unit
 

@@ -17,7 +17,7 @@ class PhotoRepository @Inject constructor(
             return Resource.Error("Http ConnectionError")
         }
 
-        return if(response.isSuccessful && response.body() != null) {
+        return if (response.isSuccessful && response.body() != null) {
             Resource.Success(response.body()!!)
         } else {
             Resource.Error("response is failed")
