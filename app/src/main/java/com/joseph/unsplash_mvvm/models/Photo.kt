@@ -3,6 +3,7 @@ package com.joseph.unsplash_mvvm.models
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import java.io.Serializable
 
 @JsonClass(generateAdapter = true)
 data class Photo(
@@ -36,14 +37,14 @@ data class Photo(
     val user: User?,
     @Json(name = "width")
     val width: Int?
-) {
+) : Serializable{
     @JsonClass(generateAdapter = true)
     data class Position(
         @Json(name = "latitude")
         val latitude: Double?,
         @Json(name = "longitude")
         val longitude: Double?
-    )
+    ) : Serializable
 
     @JsonClass(generateAdapter = true)
     data class Urls(
@@ -57,7 +58,7 @@ data class Photo(
         val small: String?,
         @Json(name = "thumb")
         val thumb: String?
-    )
+    ) : Serializable
 
     @JsonClass(generateAdapter = true)
     data class User(
@@ -87,7 +88,7 @@ data class Photo(
         val updatedAt: String?,
         @Json(name = "username")
         val username: String?
-    )
+    ) : Serializable
 
     @JsonClass(generateAdapter = true)
     data class UserLinks(
@@ -101,7 +102,7 @@ data class Photo(
         val portfolio: String?,
         @Json(name = "self")
         val self: String?
-    )
+    ) : Serializable
 
     @JsonClass(generateAdapter = true)
     data class Location(
@@ -113,7 +114,7 @@ data class Photo(
         val name: String?,
         @Json(name = "position")
         val position: Position?
-    )
+    ) : Serializable
 
     @JsonClass(generateAdapter = true)
     data class Exif(
@@ -129,5 +130,5 @@ data class Photo(
         val make: String?,
         @Json(name = "model")
         val model: String?
-    )
+    ) : Serializable
 }

@@ -10,4 +10,5 @@
 
     <color name="mainColor">#544E54</color>
     <color name="textBlack">#121212</color>
+    <color name="textDescriptionGrey">#F1F1F1</color>
 </resources>

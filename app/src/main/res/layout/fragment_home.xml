@@ -67,7 +67,6 @@
                 android:id="@+id/random_user_profile_imageview"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/shape_circle_imageview"
                 app:layout_constraintStart_toStartOf="@+id/maintopic_imgview"
                 app:layout_constraintTop_toBottomOf="@+id/maintopic_imgview"
                 app:shapeAppearanceOverlay="@style/Circle"

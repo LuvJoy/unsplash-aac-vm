@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,18 +58,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.natureRecyclerview.adapter = natureAdapter
         binding.natureRecyclerview.layoutManager = layoutManager
-        natureAdapter.setItemClickListener { id ->
-            val intent = Intent(requireContext(), DetailActivity::class.java)
-            intent.putExtra("id", id)
-            startActivity(intent)
+        natureAdapter.setItemClickListener { photo, view ->
+            val intent = Intent(requireActivity(), DetailActivity::class.java)
+            val pair_image = Pair.create(view, view.transitionName)
+            val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), pair_image)
+            intent.putExtra("photo", photo)
+            startActivity(intent, optionsCompat.toBundle())
         }
 
         val layoutManager2 = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.animalRecyclerview.adapter = animalAdapter
         binding.animalRecyclerview.layoutManager = layoutManager2
-        animalAdapter.setItemClickListener { id ->
+        animalAdapter.setItemClickListener { photo, view ->
             val intent = Intent(requireContext(), DetailActivity::class.java)
-            intent.putExtra("id", id)
+            intent.putExtra("photo", photo)
             startActivity(intent)
         }
     }

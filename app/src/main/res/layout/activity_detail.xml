@@ -6,5 +6,69 @@
     android:layout_height="match_parent"
     tools:context=".ui.detail.DetailActivity">
 
+    <ImageView
+        android:id="@+id/photo_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:transitionName="detail_image"
+        tools:src="@drawable/dummy_topic_image" />
+
+    <View
+        android:id="@+id/topShadow"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/shape_gradation_down_to_up_black"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/user_profile_layout"
+        layout="@layout/layout_user_profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/bottomShadow"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/shape_gradation_up_to_down_black"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/photo_description_textview"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:fontFamily="@font/sandol_extrabold"
+        android:maxLines="1"
+        android:visibility="invisible"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/photo_location_textview"
+        app:layout_constraintStart_toStartOf="@+id/photo_location_textview"
+        tools:text="A man drinking a coffee" />
+
+    <TextView
+        android:id="@+id/photo_location_textview"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/sandol_regular"
+        android:maxLines="1"
+        android:visibility="invisible"
+        android:textColor="@color/textDescriptionGrey"
+        android:textSize="14sp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Montreal. Canada" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
