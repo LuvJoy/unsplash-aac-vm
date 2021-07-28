@@ -41,7 +41,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/maintopic_imgview"
+            android:id="@+id/random_image_imageview"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
@@ -60,15 +60,15 @@
             android:layout_marginTop="12dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/maintopic_imgview"
+            app:layout_constraintTop_toBottomOf="@+id/random_image_imageview"
             tools:layout_editor_absoluteX="16dp">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/random_user_profile_imageview"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                app:layout_constraintStart_toStartOf="@+id/maintopic_imgview"
-                app:layout_constraintTop_toBottomOf="@+id/maintopic_imgview"
+                app:layout_constraintStart_toStartOf="@+id/random_image_imageview"
+                app:layout_constraintTop_toBottomOf="@+id/random_image_imageview"
                 app:shapeAppearanceOverlay="@style/Circle"
                 tools:src="@drawable/dummy_profile_image" />
 

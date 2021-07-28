@@ -67,7 +67,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.natureRecyclerview.adapter = natureAdapter
         binding.natureRecyclerview.layoutManager = layoutManager
         natureAdapter.setItemClickListener { photo, view ->
-            navigateToDetailActivity(view, photo)
+            navigateToDetailActivity(photo)
         }
         binding.natureRecyclerview.setupInfinityScrollListener { viewModel.getNaturePhotos() }
 
@@ -76,29 +76,29 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.animalRecyclerview.adapter = animalAdapter
         binding.animalRecyclerview.layoutManager = layoutManager2
         animalAdapter.setItemClickListener { photo, view ->
-            navigateToDetailActivity(view, photo)
+            navigateToDetailActivity(photo)
         }
         binding.animalRecyclerview.setupInfinityScrollListener { viewModel.getAnimalPhotos() }
     }
 
-    private fun navigateToDetailActivity(view: View, photo: Photo) {
-        val extras = FragmentNavigatorExtras(
-            view to "detail_image"
-        )
+    private fun navigateToDetailActivity(photo: Photo) {
         val bundle = Bundle().apply { putSerializable("photo", photo) }
-        navController.navigate(R.id.action_homeFragment_to_detailActivity,bundle, null, extras)
+        navController.navigate(R.id.action_homeFragment_to_detailActivity,bundle, null, null)
     }
 
     private fun collectRandomPhoto() {
         lifecycleScope.launchWhenStarted {
             viewModel.randomPhoto.collect { event ->
-                event?.let {
-                    when (it) {
+                event?.let { event->
+                    when (event) {
                         is Event.LoadRandomPhotoEvent -> {
-                            setRandomImage(it.data)
+                            binding.randomImageImageview.setOnClickListener {
+                                navigateToDetailActivity(event.data)
+                            }
+                            setRandomImage(event.data)
                         }
                         is Event.LoadRandomPhotoErrorEvent -> {
-                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireContext(), event.message, Toast.LENGTH_LONG).show()
                         }
                     }
                 }
@@ -175,6 +175,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             .load(photoUrl)
             .thumbnail(0.05f)
             .transition(DrawableTransitionOptions.withCrossFade())
-            .into(binding.maintopicImgview)
+            .into(binding.randomImageImageview)
     }
 }
