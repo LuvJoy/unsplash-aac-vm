@@ -38,11 +38,6 @@ class DetailActivity : AppCompatActivity() {
 
     private var showProfile = false
 
-    override fun onEnterAnimationComplete() {
-        super.onEnterAnimationComplete()
-        supportStartPostponedEnterTransition()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)

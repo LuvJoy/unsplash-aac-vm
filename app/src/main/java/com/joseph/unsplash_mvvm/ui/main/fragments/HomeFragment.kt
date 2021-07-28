@@ -11,6 +11,10 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.ActivityNavigatorExtras
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -36,6 +40,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val viewModel: HomeViewModel by activityViewModels()
     private var _binding: FragmentHomeBinding? = null
+    private val navController by lazy { findNavController() }
     val binding get() = _binding!!
 
     override fun onCreateView(
@@ -62,12 +67,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.natureRecyclerview.adapter = natureAdapter
         binding.natureRecyclerview.layoutManager = layoutManager
         natureAdapter.setItemClickListener { photo, view ->
-            val intent = Intent(requireActivity(), DetailActivity::class.java)
-            val pair_image = Pair.create(view, view.transitionName)
-            val optionsCompat =
-                ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), pair_image)
-            intent.putExtra("photo", photo)
-            startActivity(intent, optionsCompat.toBundle())
+            navigateToDetailActivity(view, photo)
         }
         binding.natureRecyclerview.setupInfinityScrollListener { viewModel.getNaturePhotos() }
 
@@ -76,11 +76,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.animalRecyclerview.adapter = animalAdapter
         binding.animalRecyclerview.layoutManager = layoutManager2
         animalAdapter.setItemClickListener { photo, view ->
-            val intent = Intent(requireContext(), DetailActivity::class.java)
-            intent.putExtra("photo", photo)
-            startActivity(intent)
+            navigateToDetailActivity(view, photo)
         }
         binding.animalRecyclerview.setupInfinityScrollListener { viewModel.getAnimalPhotos() }
+    }
+
+    private fun navigateToDetailActivity(view: View, photo: Photo) {
+        val extras = FragmentNavigatorExtras(
+            view to "detail_image"
+        )
+        val bundle = Bundle().apply { putSerializable("photo", photo) }
+        navController.navigate(R.id.action_homeFragment_to_detailActivity,bundle, null, extras)
     }
 
     private fun collectRandomPhoto() {
