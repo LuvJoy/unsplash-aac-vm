@@ -47,7 +47,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -83,76 +83,66 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun navigateToDetailActivity(photo: Photo) {
         val bundle = Bundle().apply { putSerializable("photo", photo) }
-        navController.navigate(R.id.action_homeFragment_to_detailActivity,bundle, null, null)
+        navController.navigate(R.id.action_homeFragment_to_detailActivity, bundle, null, null)
     }
 
-    private fun collectRandomPhoto() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.randomPhoto.collect { event ->
-                event?.let { event->
-                    when (event) {
-                        is Event.LoadRandomPhotoEvent -> {
-                            binding.randomImageImageview.setOnClickListener {
-                                navigateToDetailActivity(event.data)
-                            }
-                            setRandomImage(event.data)
-                        }
-                        is Event.LoadRandomPhotoErrorEvent -> {
-                            Toast.makeText(requireContext(), event.message, Toast.LENGTH_LONG).show()
-                        }
-                    }
+    private fun collectRandomPhoto() = lifecycleScope.launchWhenStarted {
+        viewModel.randomPhoto.collect { event ->
+            event ?: return@collect
+            when (event) {
+                is Event.LoadRandomPhotoEvent -> {
+                    binding.randomImageImageview.setOnClickListener { navigateToDetailActivity(event.data) }
+                    setRandomImage(event.data)
+                }
+                is Event.LoadRandomPhotoErrorEvent -> {
+                    Toast.makeText(requireContext(), event.message, Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
 
-    private fun collectRandomPhotoUser() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.userProfile.collect { event ->
-                event?.let {
-                    when (it) {
-                        is Event.LoadUserProfileEvent -> {
-                            setRandomPhotoUserProfile(it.userProfile)
-                        }
-                        is Event.LoadUserProfileErrorEvent -> {
-                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
-                        }
-                    }
+
+    private fun collectRandomPhotoUser() = lifecycleScope.launchWhenStarted {
+        viewModel.userProfile.collect { event ->
+            event ?: return@collect
+            when (event) {
+                is Event.LoadUserProfileEvent -> {
+                    setRandomPhotoUserProfile(event.userProfile)
+                }
+                is Event.LoadUserProfileErrorEvent -> {
+                    Toast.makeText(requireContext(), event.message, Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
 
-    private fun collectNaturePhotos() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.naturePhotos.collect { event ->
-                event?.let {
-                    if (it is Event.SearchPhotoEvent) {
-                        Timber.d(it.photos.toString())
 
-                        natureAdapter.submitList(natureAdapter.currentList + it.photos)
-                    } else if (it is Event.SearchPhotoErrorEvent) {
-                        Timber.d(it.message.toString())
-                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
-                    }
-                }
+    private fun collectNaturePhotos() = lifecycleScope.launchWhenStarted {
+        viewModel.naturePhotos.collect { event ->
+            event ?: return@collect
+            if (event is Event.SearchPhotoEvent) {
+                Timber.d(event.photos.toString())
+
+                natureAdapter.submitList(natureAdapter.currentList + event.photos)
+            } else if (event is Event.SearchPhotoErrorEvent) {
+                Timber.d(event.message.toString())
+                Toast.makeText(requireContext(), event.message, Toast.LENGTH_LONG).show()
             }
         }
     }
 
-    private fun collectAnimalPhotos() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.animalPhotos.collect { event ->
-                event?.let {
-                    if (it is Event.SearchPhotoEvent) {
-                        animalAdapter.submitList(animalAdapter.currentList + it.photos)
-                    } else if (it is Event.SearchPhotoErrorEvent) {
-                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
-                    }
-                }
+
+    private fun collectAnimalPhotos() = lifecycleScope.launchWhenStarted {
+        viewModel.animalPhotos.collect { event ->
+            event ?: return@collect
+            if (event is Event.SearchPhotoEvent) {
+                animalAdapter.submitList(animalAdapter.currentList + event.photos)
+            } else if (event is Event.SearchPhotoErrorEvent) {
+                Toast.makeText(requireContext(), event.message, Toast.LENGTH_LONG).show()
             }
         }
     }
+
 
     private fun setRandomPhotoUserProfile(user: User) {
         val profileImage = user.profileImage?.large
@@ -176,5 +166,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             .thumbnail(0.05f)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(binding.randomImageImageview)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }
