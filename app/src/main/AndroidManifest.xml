@@ -12,9 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UnsplashMVVM">
-        <activity android:name=".ui.detail.DetailActivity"
-            android:theme="@style/FullScreenActivity"
-            ></activity>
+        <activity
+            android:name=".ui.user_detail.UserDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.detail.DetailActivity"
+            android:theme="@style/FullScreenActivity" />
         <activity android:name=".ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
