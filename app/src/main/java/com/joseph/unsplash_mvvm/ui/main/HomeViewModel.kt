@@ -26,6 +26,7 @@ class HomeViewModel @Inject constructor(
 
     sealed class Event {
         data class LoadRandomPhotoEvent(val data: Photo) : Event()
+        object LoadRandomPhotoLoadingEvent : Event()
         data class LoadRandomPhotoErrorEvent(val message: String) : Event()
 
         data class LoadUserProfileEvent(val userProfile: User) : Event()
@@ -61,6 +62,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getRandomPhotoAndUserProfile() {
         viewModelScope.launch(dispatchers.main) {
+            _randomPhoto.value = Event.LoadRandomPhotoLoadingEvent
             Log.d("[TAG]", "main -> " + currentCoroutineContext().toString())
             _randomPhoto.value = getRandomPhoto()
 
