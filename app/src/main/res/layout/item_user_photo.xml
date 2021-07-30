@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="320dp"
+    android:layout_margin="12dp"
+    android:background="@drawable/shape_rounded_corner"
+    android:backgroundTint="@color/white"
+    android:elevation="3dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/photo_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:background="@drawable/shape_top_rounded"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/TopRounded"
+        tools:src="@drawable/dummy_topic_image" />
+
+    <TextView
+        android:id="@+id/title_textview"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/sandol_bold"
+        android:maxLines="2"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/textBlack"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photo_imageview"
+        tools:text="Photo Title is Here" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/sandol_regular"
+        android:maxLines="2"
+        android:textColor="#c8c8c8"
+        android:textSize="16sp"
+        android:textAlignment="viewEnd"
+        app:layout_constraintBottom_toBottomOf="@+id/title_textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/title_textview"
+        app:layout_constraintTop_toTopOf="@+id/title_textview"
+        tools:text="March. 07" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

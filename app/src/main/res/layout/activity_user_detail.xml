@@ -4,6 +4,80 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.user_detail.UserDetailActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/shape_bottom_rounded"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/user_profile_imageview"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginStart="32dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/Circle"
+            app:strokeColor="@color/white"
+            app:strokeWidth="4dp"
+            tools:src="@drawable/dummy_profile_image" />
+
+        <TextView
+            android:id="@+id/user_name_textview"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sandol_bold"
+            android:maxLines="1"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/user_username_textview"
+            app:layout_constraintStart_toEndOf="@+id/user_profile_imageview"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Joseph" />
+
+        <TextView
+            android:id="@+id/user_username_textview"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sandol_regular"
+            android:maxLines="1"
+            android:textAlignment="viewEnd"
+            android:textColor="#c8c8c8"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/user_profile_imageview"
+            app:layout_constraintTop_toBottomOf="@+id/user_name_textview"
+            tools:text="/@likeKimchi" />
+
+        <View
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@+id/user_username_textview"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/shape_circle_imageview"
+            app:layout_constraintEnd_toEndOf="@+id/user_name_textview" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/user_photo_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        tools:listitem="@layout/item_user_photo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
