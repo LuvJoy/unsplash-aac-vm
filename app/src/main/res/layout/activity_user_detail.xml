@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:background="@drawable/shape_bottom_rounded"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,10 +18,11 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/user_profile_imageview"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_marginStart="32dp"
             android:scaleType="centerCrop"
+            android:padding="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -36,11 +37,12 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/sandol_bold"
             android:maxLines="1"
+            android:layout_marginEnd="18dp"
             android:textAlignment="viewEnd"
             android:textColor="@color/white"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/user_username_textview"
-            app:layout_constraintStart_toEndOf="@+id/user_profile_imageview"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Joseph" />
@@ -55,7 +57,7 @@
             android:textColor="#c8c8c8"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/user_profile_imageview"
+            app:layout_constraintEnd_toEndOf="@+id/user_name_textview"
             app:layout_constraintTop_toBottomOf="@+id/user_name_textview"
             tools:text="/@likeKimchi" />
 
@@ -79,5 +81,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
         tools:listitem="@layout/item_user_photo" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/progress_lottie"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/progress_loading_lottie"
+        app:lottie_repeatMode="restart" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

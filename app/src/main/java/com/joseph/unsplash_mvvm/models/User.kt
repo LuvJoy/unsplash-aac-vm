@@ -3,6 +3,7 @@ package com.joseph.unsplash_mvvm.models
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import java.io.Serializable
 
 @JsonClass(generateAdapter = true)
 data class User(
@@ -48,7 +49,7 @@ data class User(
     val updatedAt: String?,
     @Json(name = "username")
     val username: String?
-) {
+) : Serializable {
     @JsonClass(generateAdapter = true)
     data class Social(
         @Json(name = "instagram_username")
@@ -57,7 +58,7 @@ data class User(
         val portfolioUrl: String?,
         @Json(name = "twitter_username")
         val twitterUsername: String?
-    )
+    ) : Serializable
 
     @JsonClass(generateAdapter = true)
     data class ProfileImage(
@@ -67,7 +68,7 @@ data class User(
         val medium: String?,
         @Json(name = "small")
         val small: String?
-    )
+    ) : Serializable
 
     @JsonClass(generateAdapter = true)
     data class Badge(
@@ -79,5 +80,5 @@ data class User(
         val slug: String?,
         @Json(name = "title")
         val title: String?
-    )
+    ) : Serializable
 }

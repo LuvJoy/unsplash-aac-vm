@@ -1,5 +1,6 @@
 package com.joseph.unsplash_mvvm.ui.detail
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -21,6 +22,7 @@ import com.joseph.unsplash_mvvm.R
 import com.joseph.unsplash_mvvm.databinding.ActivityDetailBinding
 import com.joseph.unsplash_mvvm.models.Photo
 import com.joseph.unsplash_mvvm.models.User
+import com.joseph.unsplash_mvvm.ui.user_detail.UserDetailActivity
 import com.joseph.unsplash_mvvm.util.hide
 import com.joseph.unsplash_mvvm.util.show
 import dagger.hilt.android.AndroidEntryPoint
@@ -83,6 +85,11 @@ class DetailActivity : AppCompatActivity() {
             when (event) {
                 is DetailViewModel.Event.LoadUserProfileEvent -> {
                     settingUserProfileViews(event.data)
+                    binding.userProfileLayout.root.setOnClickListener {
+                        val intent = Intent(this@DetailActivity, UserDetailActivity::class.java)
+                        intent.putExtra("user", event.data)
+                        startActivity(intent)
+                    }
                 }
                 is DetailViewModel.Event.LoadUserProfileErrorEvent -> {
                     Toast.makeText(
