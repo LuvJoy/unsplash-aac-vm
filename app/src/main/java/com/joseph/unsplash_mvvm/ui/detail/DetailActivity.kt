@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
@@ -129,6 +130,7 @@ class DetailActivity : AppCompatActivity() {
             "${photo.location?.city ?: ""} ${photo.location?.country ?: ""}"
         Glide.with(this@DetailActivity)
             .load(photo.urls?.full)
+            .transition(DrawableTransitionOptions.withCrossFade())
             .apply(
                 RequestOptions()
                     .fitCenter()
