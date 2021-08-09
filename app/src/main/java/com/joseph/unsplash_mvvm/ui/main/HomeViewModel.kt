@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joseph.unsplash_mvvm.models.Photo
+import com.joseph.unsplash_mvvm.models.PhotoSearchResult
 import com.joseph.unsplash_mvvm.models.User
 import com.joseph.unsplash_mvvm.repo.PhotoRepository
 import com.joseph.unsplash_mvvm.repo.UserRepository
@@ -13,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -24,32 +26,17 @@ class HomeViewModel @Inject constructor(
     private val dispatchers: DispatcherProvider
 ) : ViewModel() {
 
-    sealed class Event {
-        data class LoadRandomPhotoEvent(val data: Photo) : Event()
-        object LoadRandomPhotoLoadingEvent : Event()
-        data class LoadRandomPhotoErrorEvent(val message: String) : Event()
+    private val _randomPhoto: MutableStateFlow<Resource<Photo>> = MutableStateFlow(Resource.Loading())
+    val randomPhoto: StateFlow<Resource<Photo>> get() = _randomPhoto
 
-        data class LoadUserProfileEvent(val userProfile: User) : Event()
-        data class LoadUserProfileErrorEvent(val message: String) : Event()
+    private val _userProfile: MutableStateFlow<Resource<User>> = MutableStateFlow(Resource.Loading())
+    val userProfile: StateFlow<Resource<User>> get() = _userProfile
 
-        data class SearchPhotoEvent(val photos: List<Photo>) : Event()
-        data class SearchPhotoErrorEvent(val message: String) : Event()
-    }
+    private val _naturePhotos: MutableStateFlow<Resource<PhotoSearchResult>> = MutableStateFlow(Resource.Loading())
+    val naturePhotos: StateFlow<Resource<PhotoSearchResult>> get() = _naturePhotos
 
-    private val _randomPhoto: MutableStateFlow<Event?> = MutableStateFlow(null)
-    val randomPhoto get() = _randomPhoto
-
-    private val _userProfile: MutableStateFlow<Event?> = MutableStateFlow(null)
-    val userProfile get() = _userProfile
-
-    private val _naturePhotos: MutableStateFlow<Event?> = MutableStateFlow(null)
-    val naturePhotos get() = _naturePhotos
-
-    private val _animalPhotos: MutableStateFlow<Event?> = MutableStateFlow(null)
-    val animalPhotos get() = _animalPhotos
-
-    private val _errorEvent: MutableSharedFlow<Event> = MutableSharedFlow()
-    val errorEvent get() = _errorEvent
+    private val _animalPhotos: MutableStateFlow<Resource<PhotoSearchResult>> = MutableStateFlow(Resource.Loading())
+    val animalPhotos: StateFlow<Resource<PhotoSearchResult>> get() = _animalPhotos
 
     private var naturePage = 0
     private var animalPage = 0
@@ -62,78 +49,44 @@ class HomeViewModel @Inject constructor(
 
     private fun getRandomPhotoAndUserProfile() {
         viewModelScope.launch(dispatchers.main) {
-            _randomPhoto.value = Event.LoadRandomPhotoLoadingEvent
+            _randomPhoto.value = Resource.Loading()
             Log.d("[TAG]", "main -> " + currentCoroutineContext().toString())
             _randomPhoto.value = getRandomPhoto()
 
-            val event = _randomPhoto.value
-            _userProfile.value = when (event) {
-                is Event.LoadRandomPhotoEvent -> {
-                    getUserProfile(event.data.user?.username!!)
+            val state = _randomPhoto.value
+            _userProfile.value = when (state) {
+                is Resource.Success -> {
+                    getUserProfile(state.data?.user?.username!!)
                 }
-                is Event.LoadRandomPhotoErrorEvent -> {
-                    Event.LoadRandomPhotoErrorEvent(event.message)
+                is Resource.Error -> {
+                    Resource.Error(message = state.message ?: "")
                 }
-                else -> return@launch
+                is Resource.Loading -> {
+                    Resource.Loading()
+                }
             }
         }
     }
 
     private suspend fun getRandomPhoto() = withContext(dispatchers.io) {
-        Log.d("[TAG]", "photo() io -> " + currentCoroutineContext().toString())
-        val response = photoRepository.getRandomPhoto()
-        when (response) {
-            is Resource.Error -> {
-                Event.LoadRandomPhotoErrorEvent(response.message!!)
-            }
-            is Resource.Success -> {
-                Event.LoadRandomPhotoEvent(response.data!!)
-            }
-        }
+        _randomPhoto.value = Resource.Loading()
+        photoRepository.getRandomPhoto()
     }
 
     private suspend fun getUserProfile(username: String) = withContext(dispatchers.io) {
-        Log.d("[TAG]", "user() io -> " + currentCoroutineContext().toString())
-        val response = userRepository.getUserProfile(username)
-        when (response) {
-            is Resource.Error -> {
-                Event.LoadUserProfileErrorEvent(response.message!!)
-            }
-            is Resource.Success -> {
-                Event.LoadUserProfileEvent(response.data!!)
-            }
-        }
+        _userProfile.value = Resource.Loading()
+        userRepository.getUserProfile(username)
     }
 
     fun getNaturePhotos() = viewModelScope.launch {
         naturePage++
-        val response = photoRepository.searchPhotos("nature", naturePage)
-        when (response) {
-            is Resource.Error -> {
-                _naturePhotos.value =
-                    Event.SearchPhotoErrorEvent(response.message ?: return@launch)
-            }
-            is Resource.Success -> {
-                _naturePhotos.value =
-                    Event.SearchPhotoEvent(response.data?.results ?: return@launch)
-            }
-        }
+        _naturePhotos.value = Resource.Loading()
+        _naturePhotos.value = photoRepository.searchPhotos("nature", naturePage)
     }
 
     fun getAnimalPhotos() = viewModelScope.launch {
         animalPage++
-        val response = photoRepository.searchPhotos("animal", animalPage)
-        when (response) {
-            is Resource.Error -> {
-                _animalPhotos.value =
-                    Event.SearchPhotoErrorEvent(response.message ?: return@launch)
-            }
-            is Resource.Success -> {
-                _animalPhotos.value =
-                    Event.SearchPhotoEvent(response.data?.results ?: return@launch)
-            }
-        }
+        _animalPhotos.value = Resource.Loading()
+        _animalPhotos.value = photoRepository.searchPhotos("animal", animalPage)
     }
-
-
 }

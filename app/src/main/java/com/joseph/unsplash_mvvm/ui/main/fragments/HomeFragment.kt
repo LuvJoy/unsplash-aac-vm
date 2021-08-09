@@ -34,6 +34,7 @@ import com.joseph.unsplash_mvvm.models.User
 import com.joseph.unsplash_mvvm.ui.detail.DetailActivity
 import com.joseph.unsplash_mvvm.ui.main.HomeViewModel
 import com.joseph.unsplash_mvvm.ui.main.HomeViewModel.*
+import com.joseph.unsplash_mvvm.util.Resource
 import com.joseph.unsplash_mvvm.util.setupInfinityScrollListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -94,18 +95,22 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun collectRandomPhoto() = lifecycleScope.launchWhenStarted {
-        viewModel.randomPhoto.collect { event ->
-            event ?: return@collect
-            when (event) {
-                is Event.LoadRandomPhotoEvent -> {
-                    binding.randomImageImageview.setOnClickListener { navigateToDetailActivity(event.data) }
-                    setRandomImage(event.data)
+        viewModel.randomPhoto.collect { state ->
+            state ?: return@collect
+            when (state) {
+                is Resource.Success -> {
+                    if(state.data != null) {
+                        binding.randomImageImageview.setOnClickListener { navigateToDetailActivity(state.data) }
+                        setRandomImage(state.data)
+                    } else {
+                        Toast.makeText(requireContext(), "Random Data is Empty", Toast.LENGTH_LONG).show()
+                    }
                 }
-                is Event.LoadRandomPhotoLoadingEvent -> {
+                is Resource.Loading -> {
                     binding.progressLottie.isVisible = true
                 }
-                is Event.LoadRandomPhotoErrorEvent -> {
-                    Toast.makeText(requireContext(), event.message, Toast.LENGTH_LONG).show()
+                is Resource.Error -> {
+                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -113,14 +118,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
     private fun collectRandomPhotoUser() = lifecycleScope.launchWhenStarted {
-        viewModel.userProfile.collect { event ->
-            event ?: return@collect
-            when (event) {
-                is Event.LoadUserProfileEvent -> {
-                    setRandomPhotoUserProfile(event.userProfile)
+        viewModel.userProfile.collect { state ->
+            state ?: return@collect
+            when (state) {
+                is Resource.Success -> {
+                    if(state.data != null) {
+                        setRandomPhotoUserProfile(state.data)
+                    } else {
+                        Toast.makeText(requireContext(), "Can't Found User Data", Toast.LENGTH_LONG).show()
+                    }
                 }
-                is Event.LoadUserProfileErrorEvent -> {
-                    Toast.makeText(requireContext(), event.message, Toast.LENGTH_LONG).show()
+                is Resource.Error -> {
+                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -128,27 +137,34 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
     private fun collectNaturePhotos() = lifecycleScope.launchWhenStarted {
-        viewModel.naturePhotos.collect { event ->
-            event ?: return@collect
-            if (event is Event.SearchPhotoEvent) {
-                Timber.d(event.photos.toString())
-
-                natureAdapter.submitList(natureAdapter.currentList + event.photos)
-            } else if (event is Event.SearchPhotoErrorEvent) {
-                Timber.d(event.message.toString())
-                Toast.makeText(requireContext(), event.message, Toast.LENGTH_LONG).show()
+        viewModel.naturePhotos.collect { state ->
+            state ?: return@collect
+            when(state) {
+                is Resource.Success -> {
+                    if(state.data?.results != null) {
+                        natureAdapter.submitList(natureAdapter.currentList + state.data.results)
+                    }
+                }
+                is Resource.Error -> {
+                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
 
 
     private fun collectAnimalPhotos() = lifecycleScope.launchWhenStarted {
-        viewModel.animalPhotos.collect { event ->
-            event ?: return@collect
-            if (event is Event.SearchPhotoEvent) {
-                animalAdapter.submitList(animalAdapter.currentList + event.photos)
-            } else if (event is Event.SearchPhotoErrorEvent) {
-                Toast.makeText(requireContext(), event.message, Toast.LENGTH_LONG).show()
+        viewModel.animalPhotos.collect { state ->
+            state ?: return@collect
+            when(state) {
+                is Resource.Success -> {
+                    if(state.data?.results != null) {
+                        animalAdapter.submitList(animalAdapter.currentList + state.data.results)
+                    }
+                }
+                is Resource.Error -> {
+                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
