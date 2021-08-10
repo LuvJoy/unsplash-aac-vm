@@ -12,6 +12,7 @@
         <entry key="app/src/main/res/layout/activity_user_detail.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_category.xml" value="0.21603260869565216" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.21920289855072464" />
+        <entry key="app/src/main/res/layout/fragment_search.xml" value="0.37395833333333334" />
         <entry key="app/src/main/res/layout/item_user_photo.xml" value="0.33605072463768115" />
       </map>
     </option>
