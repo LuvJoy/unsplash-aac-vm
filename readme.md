@@ -10,7 +10,6 @@
 
 - MVVM
 - JetPack
-    - LiveData
     - LifeCycle
     - ViewModel
 - Hilt
