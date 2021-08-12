@@ -34,6 +34,7 @@ class SearchViewModel @Inject constructor(
         } else {
             page = 1
             isSameQuery = false
+            lastQuery = query
             _photos.value = photoRepository.searchPhotos(query, page)
         }
     }

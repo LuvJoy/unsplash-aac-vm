@@ -3,6 +3,7 @@ package com.joseph.unsplash_mvvm.util
 import android.content.Context
 import android.view.View
 import android.view.animation.Animation
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import timber.log.Timber
@@ -23,12 +24,16 @@ fun View.show(context: Context, animation: Animation? = null) {
     }
 }
 
-fun RecyclerView.setupInfinityScrollListener(load: () -> Unit) {
+fun RecyclerView.setInfinityScrollListener(load: () -> Unit) {
     this.addOnScrollListener (object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-
-            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val layoutManager = when(recyclerView.layoutManager) {
+                is LinearLayoutManager -> {
+                    recyclerView.layoutManager as LinearLayoutManager
+                }
+                else -> throw RuntimeException("Cant Convert LayoutManager")
+            }
             val total = recyclerView.adapter?.itemCount
             val pos = layoutManager.findLastCompletelyVisibleItemPosition()
 
@@ -38,3 +43,5 @@ fun RecyclerView.setupInfinityScrollListener(load: () -> Unit) {
         }
     })
 }
+
+

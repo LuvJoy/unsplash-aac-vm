@@ -14,14 +14,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
-import com.joseph.unsplash_mvvm.R
 import com.joseph.unsplash_mvvm.adapters.UsersPhotoAdapter
 import com.joseph.unsplash_mvvm.databinding.ActivityUserDetailBinding
 import com.joseph.unsplash_mvvm.models.Photo
 import com.joseph.unsplash_mvvm.models.User
 import com.joseph.unsplash_mvvm.ui.detail.DetailActivity
 import com.joseph.unsplash_mvvm.ui.user_detail.UserDetailViewModel.UserDetailEvent
-import com.joseph.unsplash_mvvm.util.setupInfinityScrollListener
+import com.joseph.unsplash_mvvm.util.setInfinityScrollListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
@@ -54,7 +53,7 @@ class UserDetailActivity : AppCompatActivity() {
             intent.putExtra("photo", photo)
             startActivity(intent)
         }
-        userPhotoRecyclerview.setupInfinityScrollListener { viewModel.getUsersPhotos() }
+        userPhotoRecyclerview.setInfinityScrollListener { viewModel.getUsersPhotos() }
     }
 
     private fun collectUserProfile() = lifecycleScope.launchWhenStarted {

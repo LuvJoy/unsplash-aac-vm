@@ -12,11 +12,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.joseph.unsplash_mvvm.ui.main.fragments.HomeFragment"
-        android:label="HomeFragment" >
-        <action
-            android:id="@+id/action_homeFragment_to_detailActivity"
-            app:destination="@id/detailActivity" />
-    </fragment>
+        android:label="HomeFragment" />
     <fragment
         android:id="@+id/mypageFragment"
         android:name="com.joseph.unsplash_mvvm.ui.main.fragments.MypageFragment"
@@ -25,13 +21,4 @@
         android:id="@+id/searchFragment"
         android:name="com.joseph.unsplash_mvvm.ui.main.fragments.SearchFragment"
         android:label="SearchFragment" />
-    <activity
-        android:id="@+id/detailActivity"
-        android:name="com.joseph.unsplash_mvvm.ui.detail.DetailActivity"
-        android:label="activity_detail"
-        tools:layout="@layout/activity_detail" >
-        <argument
-            android:name="photo"
-            app:argType="com.joseph.unsplash_mvvm.models.Photo" />
-    </activity>
 </navigation>

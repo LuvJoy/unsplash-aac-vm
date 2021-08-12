@@ -1,5 +1,6 @@
 package com.joseph.unsplash_mvvm.ui.main.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,9 +15,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.joseph.unsplash_mvvm.R
 import com.joseph.unsplash_mvvm.adapters.PhotoAdapter
 import com.joseph.unsplash_mvvm.databinding.FragmentSearchBinding
+import com.joseph.unsplash_mvvm.models.Photo
+import com.joseph.unsplash_mvvm.ui.detail.DetailActivity
 import com.joseph.unsplash_mvvm.ui.main.SearchViewModel
 import com.joseph.unsplash_mvvm.util.Resource
-import com.joseph.unsplash_mvvm.util.setupInfinityScrollListener
+import com.joseph.unsplash_mvvm.util.setInfinityScrollListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
@@ -61,7 +64,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         val layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
         photoRecyclerview.adapter = adapter
         photoRecyclerview.layoutManager = layoutManager
-        photoRecyclerview.setupInfinityScrollListener { viewModel.searchPhotos(_query) }
+        photoRecyclerview.setInfinityScrollListener { viewModel.searchPhotos(_query) }
+        adapter.setItemClickListener { photo, view ->
+            val intent = Intent(requireContext(), DetailActivity::class.java).apply {
+                putExtra("photo", photo)
+            }
+            startActivity(intent)
+        }
     }
 
     private fun collectSearchResult() = lifecycleScope.launchWhenStarted {
