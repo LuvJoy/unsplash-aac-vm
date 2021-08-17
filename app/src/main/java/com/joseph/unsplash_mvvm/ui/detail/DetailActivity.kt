@@ -1,5 +1,6 @@
 package com.joseph.unsplash_mvvm.ui.detail
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
@@ -142,5 +143,13 @@ class DetailActivity : AppCompatActivity() {
     override fun onBackPressed() {
         hidePhotoData()
         supportFinishAfterTransition()
+    }
+
+    companion object {
+        fun moveToDetailActivity(photo: Photo, context: Context) {
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra("photo", photo)
+            context.startActivity(intent)
+        }
     }
 }

@@ -67,7 +67,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.natureRecyclerview.adapter = natureAdapter
         binding.natureRecyclerview.layoutManager = layoutManager
         natureAdapter.setItemClickListener { photo, view ->
-            navigateToDetailActivity(photo)
+            DetailActivity.moveToDetailActivity(photo, requireContext())
         }
         binding.natureRecyclerview.setInfinityScrollListener { viewModel.getNaturePhotos() }
 
@@ -76,16 +76,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.animalRecyclerview.adapter = animalAdapter
         binding.animalRecyclerview.layoutManager = layoutManager2
         animalAdapter.setItemClickListener { photo, view ->
-            navigateToDetailActivity(photo)
+            DetailActivity.moveToDetailActivity(photo, requireContext())
         }
         binding.animalRecyclerview.setInfinityScrollListener { viewModel.getAnimalPhotos() }
-    }
-
-    private fun navigateToDetailActivity(photo: Photo) {
-        val intent = Intent(requireContext(), DetailActivity::class.java).apply {
-            putExtra("photo", photo)
-        }
-        startActivity(intent)
     }
 
     private fun collectRandomPhoto() = lifecycleScope.launchWhenStarted {
@@ -94,7 +87,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             when (state) {
                 is Resource.Success -> {
                     if(state.data != null) {
-                        binding.randomImageImageview.setOnClickListener { navigateToDetailActivity(state.data) }
+                        binding.randomImageImageview.setOnClickListener { DetailActivity.moveToDetailActivity(state.data, requireContext()) }
                         setRandomImage(state.data)
                     } else {
                         Toast.makeText(requireContext(), "Random Data is Empty", Toast.LENGTH_LONG).show()
